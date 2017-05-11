@@ -1,36 +1,49 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {a: ''};
+    this.state = {val: 0};
+    this.update = this.update.bind(this);
   }
   update() {
-    this.setState({
-      a: this.a.refs.input.value,
-      b: this.b.refs.input.value
-    });
+    this.setState({val: this.state.val + 1});
+  }
+  componentWillMount() {
+    console.log('componentWillMount');
+    this.setState({m: 2});
+  }
+  render() {
+    console.log('render');
+    return <button onClick={this.update}>
+      {this.state.val * this.state.m}
+    </button>
+  }
+  componentDidMount() {
+    console.log('componentDidMount');
+  }
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+  }
+}
+
+class Wrapper extends React.Component {
+  mount() {
+    ReactDOM.render(<App />, document.getElementById('a'));
+  }
+  unmount() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('a'));
   }
   render() {
     return (
       <div>
-        <Input
-          ref={ component => this.a = component }
-          update={this.update.bind(this)}
-        /> {this.state.a}
-        <hr/>
-        <Input
-          ref={ component => this.b = component }
-          update={this.update.bind(this)}
-        /> {this.state.b}
+        <button onClick={this.mount.bind(this)}>Mount</button>
+        <button onClick={this.unmount.bind(this)}>UnMount</button>
+        <div id="a"></div>
       </div>
     )
   }
 }
-class Input extends React.Component {
-  render() {
-    return <div><input ref="input" type="text" onChange={this.props.update} /></div>
-  }
-}
 
-export default App;
+export default Wrapper;
