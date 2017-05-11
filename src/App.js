@@ -12,7 +12,7 @@ class App extends React.Component {
   }
   componentWillMount() {
     console.log('componentWillMount');
-    this.setState({m: 2});
+    this.setState({m: 1});
   }
   render() {
     console.log('render');
@@ -22,9 +22,11 @@ class App extends React.Component {
   }
   componentDidMount() {
     console.log('componentDidMount');
+    this.inc = setInterval(this.update, 1000);
   }
   componentWillUnmount() {
     console.log('componentWillUnmount');
+    clearInterval(this.inc);
   }
 }
 
